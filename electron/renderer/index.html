@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'" />
+  <title>Study Bridge</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="statusbar">
+      <span class="brand">Study Bridge</span>
+      <span id="status-tunnel" class="pill pill-idle">tunnel: 未启动</span>
+      <span id="status-url" class="mono dim"></span>
+      <span class="spacer"></span>
+      <span class="modes" id="mode-group">
+        <button class="mode" data-mode="ask">Ask</button>
+        <button class="mode" data-mode="plan">Plan</button>
+        <button class="mode" data-mode="code">Code</button>
+      </span>
+      <button id="btn-toggle" class="primary">启动</button>
+    </header>
+
+    <div id="arena-bar">
+      <span class="dim">公网通道 (Arena)</span>
+      <span id="arena-state" class="pill pill-idle">未启动</span>
+      <span id="arena-url" class="mono dim"></span>
+      <span class="spacer"></span>
+      <span id="arena-warn" class="dim"></span>
+      <label class="dim" for="arena-perm">权限</label>
+      <select id="arena-perm" class="mini" title="仅作用于这条公网通道；上方 Ask/Plan/Code 是 ChatGPT 那条隧道，两者独立">
+        <option value="ask">只读</option>
+        <option value="code-noexec">可写 · 禁执行</option>
+        <option value="code">完全 (code)</option>
+      </select>
+      <button id="btn-arena-copy" class="mini" disabled>复制提示词</button>
+      <button id="btn-arena-open" class="mini" disabled>浏览器打开</button>
+      <button id="btn-models" class="mini">模型目录</button>
+      <button id="btn-arena-toggle">启动</button>
+    </div>
+
+    <main id="layout">
+      <section id="chat-pane" class="pane">
+        <div class="pane-title">
+          <span id="chat-tabs" class="tabs"></span>
+          <span class="spacer"></span>
+          <button id="btn-chat-focus" class="mini">继续</button>
+          <button id="btn-chat-reload" class="mini">重载</button>
+          <button id="btn-chat-external" class="mini">浏览器打开</button>
+        </div>
+        <div class="placeholder" id="chat-placeholder">
+          <div>
+            <p id="chat-placeholder-title">正在内嵌对话页面…</p>
+            <p class="dim">若此处长期空白，点右上「浏览器打开」，对话在主浏览器进行，活动面板照常显示。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="right" class="pane">
+        <div class="pane-title">Agent 活动</div>
+        <div id="activity"></div>
+
+        <div id="diff-panel" class="hidden">
+          <div class="pane-title">
+            <span id="diff-title">diff</span>
+            <span class="spacer"></span>
+            <button id="btn-diff-close" class="mini">关闭</button>
+          </div>
+          <pre id="diff-body"></pre>
+        </div>
+
+        <div id="models-panel" class="hidden">
+          <div class="pane-title">
+            <span>arena 模型</span>
+            <span id="models-fresh" class="dim"></span>
+            <span class="spacer"></span>
+            <button id="btn-models-refresh" class="mini">刷新</button>
+            <button id="btn-models-close" class="mini">关闭</button>
+          </div>
+          <div id="models-tabs" class="tabs"></div>
+          <div class="models-filter">
+            <input id="models-search" class="mini" type="search" placeholder="过滤模型 / 厂商…">
+            <span id="models-count" class="dim"></span>
+          </div>
+          <div id="models-body"></div>
+        </div>
+
+        <div id="terminal-wrap">
+          <div class="pane-title">
+            终端
+            <select id="session-select" class="mini"></select>
+          </div>
+          <pre id="terminal"></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer id="controlbar">
+      <span id="creds-state" class="pill">凭据: —</span>
+      <span id="webcodex-state" class="pill">WebCodex tunnel: 检测中…</span>
+      <button id="btn-webcodex">让位 / 恢复</button>
+      <span class="spacer"></span>
+      <span id="workspace-label" class="dim mono"></span>
+      <button id="btn-state-dir">打开状态目录</button>
+    </footer>
+  </div>
+
+  <script src="views/activity.js" defer></script>
+  <script src="views/diff.js" defer></script>
+  <script src="views/terminal.js" defer></script>
+  <script src="views/models.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>

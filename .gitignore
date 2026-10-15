@@ -1,0 +1,37 @@
+# deps / build output
+node_modules/
+dist/
+release/
+build/
+out/
+*.AppImage
+*.deb
+*.rpm
+*.snap
+*.tar.gz
+
+# python
+__pycache__/
+*.pyc
+
+# runtime state
+.state/
+*.log
+
+# local scratch: dated backups, editor leftovers
+electron.bak-*/
+*.bak-*
+*~
+
+# secrets -- real credentials live in ~/.config/study-bridge, never in the repo
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+
+# internal notes: baseline captures and tunnel governance records.
+# These describe one specific machine (real tunnel ids, host fingerprints, absolute paths),
+# so they stay local.
+docs/

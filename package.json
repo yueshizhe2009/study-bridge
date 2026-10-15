@@ -1,0 +1,45 @@
+{
+  "name": "study-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "author": "ysz",
+  "description": "Bridge console: expose a local MCP execution layer to web ChatGPT over the OpenAI tunnel",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "probe": "python3 scripts/mcp-probe.py",
+    "test": "python3 -m unittest discover -s hub/tests -v",
+    "build:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.studybridge.app",
+    "productName": "Study Bridge",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "hub/**/*",
+      "scripts/**/*",
+      "docs/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "hub/**",
+      "scripts/**"
+    ],
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development"
+    }
+  },
+  "allowScripts": {
+    "electron@34.5.8": true
+  }
+}

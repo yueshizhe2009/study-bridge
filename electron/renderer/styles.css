@@ -1,0 +1,102 @@
+:root {
+  --bg: #1e1e1e;
+  --panel: #252526;
+  --border: #3c3c3c;
+  --fg: #d4d4d4;
+  --muted: #808080;
+  --accent: #4ec9b0;
+  --ok: #4ec9b0;
+  --bad: #f14c4c;
+  --warn: #d7ba7d;
+  --add: #4ea1ff;
+  --del: #f14c4c;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
+  font: 13px/1.5 -apple-system, "Noto Sans CJK SC", "Segoe UI", sans-serif; }
+#app { display: flex; flex-direction: column; height: 100vh; }
+#statusbar, #controlbar { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--panel); }
+#statusbar { border-bottom: 1px solid var(--border); }
+#controlbar { border-top: 1px solid var(--border); }
+.brand { font-weight: 600; margin-right: 8px; }
+.spacer { flex: 1; }
+.dim { color: var(--muted); }
+.mono { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 12px; }
+.pill { padding: 1px 8px; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); }
+.pill-ok { color: var(--ok); border-color: var(--ok); }
+.pill-bad { color: var(--bad); border-color: var(--bad); }
+.pill-idle { color: var(--warn); }
+button { background: #333; color: var(--fg); border: 1px solid var(--border); border-radius: 4px;
+  padding: 3px 10px; cursor: pointer; font: inherit; }
+button:hover { background: #3c3c3c; }
+button.primary { background: #0e639c; border-color: #0e639c; }
+button.mini { padding: 1px 6px; font-size: 11px; }
+.mode.active { background: var(--accent); color: #10312b; border-color: var(--accent); font-weight: 600; }
+select.mini { background: #333; color: var(--fg); border: 1px solid var(--border); border-radius: 4px; font-size: 11px; }
+
+.tabs { display: inline-flex; gap: 2px; }
+.tab { padding: 1px 10px; border: 1px solid var(--border); border-bottom: none; border-radius: 4px 4px 0 0;
+  background: transparent; color: var(--muted); text-transform: none; letter-spacing: 0; }
+.tab.active { background: var(--bg); color: var(--fg); border-color: var(--accent); }
+
+#arena-bar { display: flex; align-items: center; gap: 8px; padding: 5px 10px; font-size: 12px;
+  background: var(--panel); border-bottom: 1px solid var(--border); }
+#arena-url { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 34vw; }
+#arena-warn { color: var(--warn); }
+
+#layout { flex: 1; display: flex; min-height: 0; }
+.pane { display: flex; flex-direction: column; min-width: 0; }
+#chat-pane { flex: 3 1 0; border-right: 1px solid var(--border); }
+#right { flex: 1 1 0; min-width: 0; }
+.pane-title { display: flex; align-items: center; gap: 6px; padding: 6px 10px; background: var(--panel);
+  color: var(--muted); border-bottom: 1px solid var(--border); font-size: 12px;
+  text-transform: uppercase; letter-spacing: .05em; }
+.placeholder { flex: 1; display: grid; place-items: center; color: var(--muted); padding: 20px; text-align: center; }
+
+#activity { flex: 1; overflow: auto; padding: 4px 0; }
+.ev { display: flex; align-items: baseline; gap: 5px; padding: 3px 8px; font-size: 11px;
+  border-bottom: 1px solid #2a2a2a; min-width: 0; }
+.ev > span { min-width: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ev-time { color: #6a6a6a; flex: none !important; }
+.ev-kind { flex: none !important; min-width: 38px; color: var(--muted); text-transform: uppercase; font-size: 9px; }
+.ev-tool { color: var(--accent); }
+.ev-ok .ev-kind { color: var(--ok); }
+.ev-bad .ev-kind { color: var(--bad); }
+.ev-err { color: var(--bad); }
+.ev-progress .ev-kind { color: var(--warn); }
+
+#diff-panel { display: flex; flex-direction: column; max-height: 45%; border-top: 1px solid var(--border); }
+#diff-panel.hidden { display: none; }
+#diff-body { margin: 0; overflow: auto; padding: 6px 10px; font-family: ui-monospace, monospace;
+  font-size: 12px; white-space: pre; }
+.d-line { display: block; }
+.d-add { color: var(--add); }
+.d-del { color: var(--del); }
+.d-hunk { color: var(--warn); }
+.d-meta { color: var(--muted); }
+
+#terminal-wrap { display: flex; flex-direction: column; height: 30%; border-top: 1px solid var(--border); }
+#terminal { margin: 0; overflow: auto; padding: 5px 7px; font-family: ui-monospace, monospace;
+  font-size: 10px; line-height: 1.4; white-space: pre; color: #ccc; background: #181818; flex: 1; }
+
+/* Model catalog. Takes over the right pane while open, so the list gets the full height --
+   it is a few hundred rows and useless in a 45%-height box. */
+#models-panel { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; }
+#models-panel.hidden { display: none; }
+#right:has(#models-panel:not(.hidden)) #activity,
+#right:has(#models-panel:not(.hidden)) #terminal-wrap,
+#right:has(#models-panel:not(.hidden)) #diff-panel { display: none; }
+#models-fresh { font-size: 11px; text-transform: none; letter-spacing: 0; }
+.models-filter { display: flex; align-items: center; gap: 6px; padding: 4px 10px;
+  border-bottom: 1px solid var(--border); }
+.models-filter input { flex: 1; min-width: 0; }
+#models-body { flex: 1; overflow: auto; }
+.model-row { display: flex; align-items: center; gap: 6px; padding: 3px 10px; font-size: 11px;
+  border-bottom: 1px solid #2a2a2a; }
+.model-rank { flex: none; width: 2.4em; text-align: right; }
+.model-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; }
+.model-org { flex: none; width: 7em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.model-caps { flex: none; display: inline-flex; gap: 2px; }
+.cap { display: inline-block; min-width: 1.1em; text-align: center; padding: 0 3px;
+  border: 1px solid var(--border); border-radius: 3px; font-size: 10px; color: var(--muted); }
